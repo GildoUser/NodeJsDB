@@ -1,9 +1,29 @@
-const myArr = require("../models/Users");
+const { json } = require("express");
+let usersList = require("../models/Users");
 
-class ControllerByID(){
+class ControllerByID{
     constructor(){
-        
-    };
+        this.setDataBase(usersList);
+        this.getDataBase = this.getDataBase.bind(this);
+
+    }
+    setDataBase(dataBase){
+  
+        this.selectedDataBase = dataBase;
+        console.log(this.selectedDataBase)
+
+
+    }
+    getDataBase(req,res){
+     res.send(JSON.stringify(this.selectedDataBase))
+    }
+    
+    create(id, nome){
+        let newUser = {id:id, nome: nome};
+        this.SelectedDataBase.push(newUser);
+        console.log("Criado")
+        console.log(this.SelectedDataBase)
+    }
 }
-myArr.push({id:1,nome: "Gil"})
-module.exports = ControllerByID;
+
+module.exports = new ControllerByID();
