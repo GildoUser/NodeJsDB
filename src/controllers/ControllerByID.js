@@ -1,29 +1,24 @@
-const { json } = require("express");
-let usersList = require("../models/Users");
+
+const Users = require("../models/Users");
 
 class ControllerByID{
-    constructor(){
-        this.setDataBase(usersList);
-        this.getDataBase = this.getDataBase.bind(this);
 
-    }
-    setDataBase(dataBase){
-  
-        this.selectedDataBase = dataBase;
-        console.log(this.selectedDataBase)
-
-
-    }
     getDataBase(req,res){
-     res.send(JSON.stringify(this.selectedDataBase))
-    }
+        const dataBase = Users.getDataBase();
+        console.log("GET : /UsersDataBaseSimulation/Users/List")
+        
+        res.send(JSON.stringify(dataBase));
     
-    create(id, nome){
-        let newUser = {id:id, nome: nome};
-        this.SelectedDataBase.push(newUser);
-        console.log("Criado")
-        console.log(this.SelectedDataBase)
     }
+    createNewUser(req,res){
+        console.log("POST : /UsersDataBaseSimulation/Users/newUser");
+        const newUserData = {name: req.query.name};
+        const newUser = Users.newUser(newUserData);
+        
+        res.send(newUser)
+
+    }
+
 }
 
 module.exports = new ControllerByID();
