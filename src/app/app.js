@@ -1,5 +1,6 @@
 const express = require("express");
 const router = require("../routes/router");
+
 class App {
     constructor(){
         this.server = new express();

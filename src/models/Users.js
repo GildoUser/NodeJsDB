@@ -6,6 +6,7 @@ class Users {
         this.setDataBase(DefaultList);
 
     }
+
     setDataBase(dataBase){
         this.selectedDataBase = dataBase;
         console.log("DB OK...")
@@ -20,6 +21,19 @@ class Users {
         return lastID + 1;
 
     }
+    getUserByID(userID){
+            let search = this.selectedDataBase.find(user => user.id == userID); //find(user => user.id == userID);
+            if(search){
+                return search;
+            }
+            else{
+                return {"404": "Usuário não encontrado"}
+            }
+
+    }
+    
+
+    
     newUser(user){
         console.log("POST : /UsersDataBaseSimulation/Users/newUser")
         try{
@@ -37,6 +51,38 @@ class Users {
         }
 
     }
+    updateUser(user){
+        console.log("PUT : /UsersDataBaseSimulation/Users/updateUser")
+        let updateData = {id: user.id, name: user.name};
+        let findUser = this.selectedDataBase.find(user => user.id == updateData.id);
+        if(findUser){
+            findUser.name = updateData.name;
+            console.log("Usuário atualizado")
+            console.log("novo Usuario ", findUser)
+            return 200;
+        }
 
+        
+    }
+    deleteUser(userID){
+        console.log("DELETE : /UsersDataBaseSimulation/Users/deleteUser");
+        console.log(userID)
+        console.log(this.selectedDataBase)
+        //findIndex should return -1 when the user is not found;
+        let userIndex = this.selectedDataBase.findIndex(user => user.id == userID.id);
+        if(userIndex != -1){
+            let deletedUser =this.selectedDataBase.splice(userIndex, 1);
+            console.log({"Usuario deletado":{deletedUser}});
+            return 200;
+        }
+        else{
+            console.log("Usuário não encontrado");
+            return 404;
+
+    }
+        
 }
+}
+
+
 module.exports = new Users();
